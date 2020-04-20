@@ -10,11 +10,6 @@
     "sources": "https://github.com/${repo}"
   },
   "environment": "*",
-  "entrypoints": {
-    "main": [
-      "io.github.fablabsmc.fablabs.impl.gamerule.test.GameRuleTest"
-    ]
-  },
   "accessWidener": "${libname}.accesswidener",
   "mixins": [
     "mixins.${libname}.json"

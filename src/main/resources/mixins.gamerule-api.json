@@ -6,7 +6,6 @@
     "GameRuleCommandAccessor",
     "GameRuleCommandMixin$RuleConsumer",
     "GameRules$BooleanRuleAccessor",
-    "GameRules$IntRuleAccessor",
     "GameRulesAccessor"
   ],
   "injectors": {

@@ -16,102 +16,108 @@ import net.minecraft.world.GameRules;
 public interface RuleFactory {
 	RuleFactory INSTANCE = RuleFactoryImpl.INSTANCE;
 
-	default GameRules.RuleType<GameRules.BooleanRule> createBooleanType(boolean defaultValue) {
-		return this.createBooleanType(defaultValue, (server, rule) -> {
+	default GameRules.RuleType<GameRules.BooleanRule> createBooleanRule(boolean defaultValue) {
+		return this.createBooleanRule(defaultValue, (server, rule) -> {
 		});
 	}
 
-	GameRules.RuleType<GameRules.BooleanRule> createBooleanType(boolean defaultValue, BiConsumer<MinecraftServer, GameRules.BooleanRule> notifier);
+	GameRules.RuleType<GameRules.BooleanRule> createBooleanRule(boolean defaultValue, BiConsumer<MinecraftServer, GameRules.BooleanRule> notifier);
 
-	default GameRules.RuleType<GameRules.IntRule> createIntType(int defaultValue) {
-		return this.createIntType(defaultValue, (server, rule) -> {
+	default GameRules.RuleType<GameRules.IntRule> createIntRule(int defaultValue) {
+		return this.createIntRule(defaultValue, (server, rule) -> {
 		});
 	}
 
-	default GameRules.RuleType<GameRules.IntRule> createBoundedIntType(int defaultValue, int lowerBound) {
-		return this.createBoundedIntType(defaultValue, lowerBound, Integer.MAX_VALUE, (server, rule) -> {
+	default GameRules.RuleType<GameRules.IntRule> createIntRule(int defaultValue, int lowerBound) {
+		return this.createIntRule(defaultValue, lowerBound, Integer.MAX_VALUE, (server, rule) -> {
 		});
 	}
 
-	default GameRules.RuleType<GameRules.IntRule> createBoundedIntType(int defaultValue, int lowerBound, BiConsumer<MinecraftServer, GameRules.IntRule> notifier) {
-		return this.createBoundedIntType(defaultValue, lowerBound, Integer.MAX_VALUE, notifier);
+	default GameRules.RuleType<GameRules.IntRule> createIntRule(int defaultValue, int lowerBound, BiConsumer<MinecraftServer, GameRules.IntRule> notifier) {
+		return this.createIntRule(defaultValue, lowerBound, Integer.MAX_VALUE, notifier);
 	}
 
-	default GameRules.RuleType<GameRules.IntRule> createBoundedIntType(int defaultValue, int lowerBound, int upperBound) {
-		return this.createBoundedIntType(defaultValue, lowerBound, upperBound, (server, rule) -> {
+	default GameRules.RuleType<GameRules.IntRule> createIntRule(int defaultValue, int lowerBound, int upperBound) {
+		return this.createIntRule(defaultValue, lowerBound, upperBound, (server, rule) -> {
 		});
 	}
 
-	GameRules.RuleType<GameRules.IntRule> createIntType(int defaultValue, BiConsumer<MinecraftServer, GameRules.IntRule> notifier);
+	default GameRules.RuleType<GameRules.IntRule> createIntRule(int defaultValue, BiConsumer<MinecraftServer, GameRules.IntRule> notifier) {
+		return this.createIntRule(defaultValue, Integer.MIN_VALUE, Integer.MAX_VALUE, notifier);
+	}
 
-	GameRules.RuleType<GameRules.IntRule> createBoundedIntType(int defaultValue, int lowerBound, int upperBound, BiConsumer<MinecraftServer, GameRules.IntRule> notifier);
+	GameRules.RuleType<GameRules.IntRule> createIntRule(int defaultValue, int lowerBound, int upperBound, BiConsumer<MinecraftServer, GameRules.IntRule> notifier);
 
-	default GameRules.RuleType<DoubleRule> createDoubleType(double defaultValue) {
-		return this.createDoubleType(defaultValue, (server, rule) -> {
+	default GameRules.RuleType<DoubleRule> createDoubleRule(double defaultValue) {
+		return this.createDoubleRule(defaultValue, (server, rule) -> {
 		});
 	}
 
-	default GameRules.RuleType<DoubleRule> createBoundedDoubleType(double defaultValue, double lowerBound) {
-		return this.createBoundedDoubleType(defaultValue, lowerBound, Integer.MAX_VALUE, (server, rule) -> {
+	default GameRules.RuleType<DoubleRule> createDoubleRule(double defaultValue, double lowerBound) {
+		return this.createDoubleRule(defaultValue, lowerBound, Integer.MAX_VALUE, (server, rule) -> {
 		});
 	}
 
-	default GameRules.RuleType<DoubleRule> createBoundedDoubleType(double defaultValue, double lowerBound, BiConsumer<MinecraftServer, DoubleRule> notifier) {
-		return this.createBoundedDoubleType(defaultValue, lowerBound, Integer.MAX_VALUE, notifier);
+	default GameRules.RuleType<DoubleRule> createDoubleRule(double defaultValue, double lowerBound, BiConsumer<MinecraftServer, DoubleRule> notifier) {
+		return this.createDoubleRule(defaultValue, lowerBound, Integer.MAX_VALUE, notifier);
 	}
 
-	default GameRules.RuleType<DoubleRule> createBoundedDoubleType(double defaultValue, double lowerBound, double upperBound) {
-		return this.createBoundedDoubleType(defaultValue, lowerBound, upperBound, (server, rule) -> {
+	default GameRules.RuleType<DoubleRule> createDoubleRule(double defaultValue, double lowerBound, double upperBound) {
+		return this.createDoubleRule(defaultValue, lowerBound, upperBound, (server, rule) -> {
 		});
 	}
 
-	GameRules.RuleType<DoubleRule> createDoubleType(double defaultValue, BiConsumer<MinecraftServer, DoubleRule> notifier);
+	default GameRules.RuleType<DoubleRule> createDoubleRule(double defaultValue, BiConsumer<MinecraftServer, DoubleRule> notifier) {
+		return this.createDoubleRule(defaultValue, Double.MIN_VALUE, Double.MAX_VALUE, notifier);
+	}
 
-	GameRules.RuleType<DoubleRule> createBoundedDoubleType(double defaultValue, double lowerBound, double upperBound, BiConsumer<MinecraftServer, DoubleRule> notifier);
+	GameRules.RuleType<DoubleRule> createDoubleRule(double defaultValue, double lowerBound, double upperBound, BiConsumer<MinecraftServer, DoubleRule> notifier);
 
-	default GameRules.RuleType<FloatRule> createFloatType(float defaultValue) {
-		return this.createFloatType(defaultValue, (server, rule) -> {
+	default GameRules.RuleType<FloatRule> createFloatRule(float defaultValue) {
+		return this.createFloatRule(defaultValue, (server, rule) -> {
 		});
 	}
 
-	default GameRules.RuleType<FloatRule> createBoundedFloatType(float defaultValue, float lowerBound) {
-		return this.createBoundedFloatType(defaultValue, lowerBound, Integer.MAX_VALUE, (server, rule) -> {
+	default GameRules.RuleType<FloatRule> createFloatRule(float defaultValue, float lowerBound) {
+		return this.createFloatRule(defaultValue, lowerBound, Integer.MAX_VALUE, (server, rule) -> {
 		});
 	}
 
-	default GameRules.RuleType<FloatRule> createBoundedFloatType(float defaultValue, float lowerBound, BiConsumer<MinecraftServer, FloatRule> notifier) {
-		return this.createBoundedFloatType(defaultValue, lowerBound, Integer.MAX_VALUE, notifier);
+	default GameRules.RuleType<FloatRule> createFloatRule(float defaultValue, float lowerBound, BiConsumer<MinecraftServer, FloatRule> notifier) {
+		return this.createFloatRule(defaultValue, lowerBound, Integer.MAX_VALUE, notifier);
 	}
 
-	default GameRules.RuleType<FloatRule> createBoundedFloatType(float defaultValue, float lowerBound, float upperBound) {
-		return this.createBoundedFloatType(defaultValue, lowerBound, upperBound, (server, rule) -> {
+	default GameRules.RuleType<FloatRule> createFloatRule(float defaultValue, float lowerBound, float upperBound) {
+		return this.createFloatRule(defaultValue, lowerBound, upperBound, (server, rule) -> {
 		});
 	}
 
-	GameRules.RuleType<FloatRule> createFloatType(float defaultValue, BiConsumer<MinecraftServer, FloatRule> notifier);
+	default GameRules.RuleType<FloatRule> createFloatRule(float defaultValue, BiConsumer<MinecraftServer, FloatRule> notifier) {
+		return this.createFloatRule(defaultValue, Float.MIN_VALUE, Float.MAX_VALUE, notifier);
+	}
 
-	GameRules.RuleType<FloatRule> createBoundedFloatType(float defaultValue, float lowerBound, float upperBound, BiConsumer<MinecraftServer, FloatRule> notifier);
+	GameRules.RuleType<FloatRule> createFloatRule(float defaultValue, float lowerBound, float upperBound, BiConsumer<MinecraftServer, FloatRule> notifier);
 
-	default GameRules.RuleType<TextRule> createTextType(Text defaultValue) {
-		return this.createTextType(defaultValue, (server, rule) -> {
+	default GameRules.RuleType<TextRule> createTextRule(Text defaultValue) {
+		return this.createTextRule(defaultValue, (server, rule) -> {
 		});
 	}
 
-	GameRules.RuleType<TextRule> createTextType(Text defaultValue, BiConsumer<MinecraftServer, TextRule> notifier);
+	GameRules.RuleType<TextRule> createTextRule(Text defaultValue, BiConsumer<MinecraftServer, TextRule> notifier);
 
-	default GameRules.RuleType<StringRule> createWordType(String defaultValue) {
-		return this.createWordType(defaultValue, (server, rule) -> {
+	default GameRules.RuleType<StringRule> createStringWordRule(String defaultValue) {
+		return this.createStringWordRule(defaultValue, (server, rule) -> {
 		});
 	}
 
-	GameRules.RuleType<StringRule> createWordType(String defaultValue, BiConsumer<MinecraftServer, StringRule> notifier);
+	GameRules.RuleType<StringRule> createStringWordRule(String defaultValue, BiConsumer<MinecraftServer, StringRule> notifier);
 
-	default GameRules.RuleType<StringRule> createStringType(String defaultValue) {
-		return this.createStringType(defaultValue, (server, rule) -> {
+	default GameRules.RuleType<StringRule> createStringRule(String defaultValue) {
+		return this.createStringRule(defaultValue, (server, rule) -> {
 		});
 	}
 
-	GameRules.RuleType<StringRule> createStringType(String defaultValue, BiConsumer<MinecraftServer, StringRule> notifier);
+	GameRules.RuleType<StringRule> createStringRule(String defaultValue, BiConsumer<MinecraftServer, StringRule> notifier);
 
 	default <E extends Enum<E>> GameRules.RuleType<EnumRule<E>> createEnumRule(E defaultValue) {
 		return this.createEnumRule(defaultValue, (server, rule) -> {
