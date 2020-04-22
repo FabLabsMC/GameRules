@@ -1,43 +1,21 @@
 package io.github.fablabsmc.fablabs.api.gamerule.v1.rule;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import java.util.function.Supplier;
 
-import io.github.fablabsmc.fablabs.api.gamerule.v1.RuleFactory;
 import io.github.fablabsmc.fablabs.impl.gamerule.GameRuleRegistryImpl;
 
 import net.minecraft.world.GameRules;
 
-public class EnumRule<E extends Enum<E>> extends LiteralRule<EnumRule<E>> implements Supplier<E> {
+public abstract class EnumRule<E extends Enum<E>> extends LiteralRule<EnumRule<E>> implements Supplier<E> {
 	private final Class<E> classType;
-	private final E[] supportedValues;
-	private E value;
+	protected final E[] supportedValues;
+	protected E value;
 
-	// TODO: i509VCB - Should we make these constructors private since people are not supposed to be able to invoke these, and then use some invokers to create these internally within the api?
-	/**
-	 * @deprecated Please use {@link RuleFactory} instead.
-	 */
-	@Deprecated
-	public EnumRule(GameRules.RuleType<EnumRule<E>> type, E value, E[] supportedValues) {
+	protected EnumRule(GameRules.RuleType<EnumRule<E>> type, E value, E[] supportedValues) {
 		super(type);
 		this.classType = value.getDeclaringClass();
 		this.value = value;
 		this.supportedValues = supportedValues;
-	}
-
-	// TODO: This should not be public, maybe use mixin to hide it?
-	public void setValue(E value) throws IllegalArgumentException {
-		checkNotNull(value);
-
-		for (E supportedValue : this.supportedValues) {
-			if (supportedValue.equals(value)) {
-				this.value = value;
-				return;
-			}
-		}
-
-		throw new IllegalArgumentException("Tried to set an unsupported value: " + value.toString());
 	}
 
 	@Override
@@ -97,4 +75,6 @@ public class EnumRule<E extends Enum<E>> extends LiteralRule<EnumRule<E>> implem
 	public E get() {
 		return this.value;
 	}
+
+	protected abstract void setValue(E value) throws IllegalArgumentException;
 }

@@ -12,6 +12,11 @@ import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.EnumRule;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.FloatRule;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.StringRule;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.TextRule;
+import io.github.fablabsmc.fablabs.impl.gamerule.rule.DoubleRuleImpl;
+import io.github.fablabsmc.fablabs.impl.gamerule.rule.EnumRuleImpl;
+import io.github.fablabsmc.fablabs.impl.gamerule.rule.FloatRuleImpl;
+import io.github.fablabsmc.fablabs.impl.gamerule.rule.StringRuleImpl;
+import io.github.fablabsmc.fablabs.impl.gamerule.rule.TextRuleImpl;
 import io.github.fablabsmc.fablabs.mixin.gamerule.GameRules$BooleanRuleAccessor;
 
 import net.minecraft.command.arguments.TextArgumentType;
@@ -47,7 +52,7 @@ public class RuleFactoryImpl implements RuleFactory {
 		return new GameRules.RuleType<>(
 				//return GameRules$RuleTypeAccessor.invokeNew(
 				() -> DoubleArgumentType.doubleArg(lowerBound, upperBound),
-				type -> new DoubleRule(type, defaultValue),
+				type -> new DoubleRuleImpl(type, defaultValue),
 				notifier
 		);
 	}
@@ -58,7 +63,7 @@ public class RuleFactoryImpl implements RuleFactory {
 		return new GameRules.RuleType<>(
 				//return GameRules$RuleTypeAccessor.invokeNew(
 				() -> FloatArgumentType.floatArg(lowerBound, upperBound),
-				type -> new FloatRule(type, defaultValue),
+				type -> new FloatRuleImpl(type, defaultValue),
 				notifier
 		);
 	}
@@ -69,7 +74,7 @@ public class RuleFactoryImpl implements RuleFactory {
 		return new GameRules.RuleType<>(
 				//return GameRules$RuleTypeAccessor.invokeNew(
 				TextArgumentType::text,
-				type -> new TextRule(type, defaultValue),
+				type -> new TextRuleImpl(type, defaultValue),
 				notifier
 		);
 	}
@@ -80,7 +85,7 @@ public class RuleFactoryImpl implements RuleFactory {
 		return new GameRules.RuleType<>(
 				//return GameRules$RuleTypeAccessor.invokeNew(
 				StringArgumentType::word,
-				type -> new StringRule(type, defaultValue),
+				type -> new StringRuleImpl(type, defaultValue),
 				notifier
 		);
 	}
@@ -91,7 +96,7 @@ public class RuleFactoryImpl implements RuleFactory {
 		return new GameRules.RuleType<>(
 				//return GameRules$RuleTypeAccessor.invokeNew(
 				StringArgumentType::string,
-				type -> new StringRule(type, defaultValue),
+				type -> new StringRuleImpl(type, defaultValue),
 				notifier
 		);
 	}
@@ -103,7 +108,7 @@ public class RuleFactoryImpl implements RuleFactory {
 		}
 
 		return new EnumRuleType<>(
-				type -> new EnumRule<>(type, defaultValue, supportedValues),
+				type -> new EnumRuleImpl<>(type, defaultValue, supportedValues),
 				notifier,
 				supportedValues
 		);

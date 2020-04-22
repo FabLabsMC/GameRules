@@ -19,5 +19,10 @@
   },
   "custom": {
     "modmenu:api": true
+  },
+  "entrypoints": {
+    "main": [
+      "io.github.fablabsmc.fablabs.impl.gamerule.TestRules"
+    ]
   }
 }
