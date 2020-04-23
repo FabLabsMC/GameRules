@@ -6,6 +6,7 @@ import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.EnumRule;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.FloatRule;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.StringRule;
 import io.github.fablabsmc.fablabs.impl.gamerule.client.widget.DoubleRuleWidget;
+import io.github.fablabsmc.fablabs.impl.gamerule.client.widget.FloatRuleWidget;
 import net.minecraft.class_5235;
 import net.minecraft.world.GameRules;
 import org.spongepowered.asm.mixin.Final;
@@ -30,7 +31,9 @@ public abstract class MixinEditGameRulesScreen$class_5235$RuleTypeConsumer imple
 
 	@Override
 	public void acceptFloatRule(GameRules.RuleKey<FloatRule> key, GameRules.RuleType<FloatRule> type) {
-
+		this.method_27640(key, (name, description, ruleName, rule) -> {
+			return new FloatRuleWidget(this.field_24314, name, description, ruleName, rule);
+		});
 	}
 
 	@Override
