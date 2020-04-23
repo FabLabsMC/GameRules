@@ -1,23 +1,32 @@
 package io.github.fablabsmc.fablabs.api.gamerule.v1.rule;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.function.Supplier;
 
 import io.github.fablabsmc.fablabs.impl.gamerule.GameRuleRegistryImpl;
 
 import io.github.fablabsmc.fablabs.impl.gamerule.rule.EnumRuleImpl;
+import net.minecraft.block.BlockState;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.GameRules;
 
 public abstract class EnumRule<E extends Enum<E>> extends LiteralRule<EnumRule<E>> implements Supplier<E> {
 	private final Class<E> classType;
-	protected final E[] supportedValues;
+	protected final Collection<E> supportedValues;
 	protected E value;
 
 	protected EnumRule(GameRules.RuleType<EnumRule<E>> type, E value, E[] supportedValues) {
+		this(type, value, Arrays.asList(supportedValues));
+	}
+
+	protected EnumRule(GameRules.RuleType<EnumRule<E>> type, E value, Collection<E> supportedValues) {
 		super(type);
 		this.classType = value.getDeclaringClass();
 		this.value = value;
-		this.supportedValues = supportedValues;
+		this.supportedValues = Collections.unmodifiableCollection(supportedValues);
 	}
 
 	@Override
@@ -30,11 +39,11 @@ public abstract class EnumRule<E extends Enum<E>> extends LiteralRule<EnumRule<E
 			return;
 		}
 
-		try {
-			this.setValue(possibleValues[ordinal]);
-		} catch (IllegalArgumentException e) { // Not a supported value
-			GameRuleRegistryImpl.LOGGER.warn("Failed to parse int {} for rule of type {}. {}", ordinal, this.classType, e);
+		if (!this.supports(possibleValues[ordinal])) {
+			GameRuleRegistryImpl.LOGGER.warn("Failed to parse int {} for rule of type {}.", ordinal, this.classType);
 		}
+
+		this.set(possibleValues[ordinal], null);
 	}
 
 	private int parseInt(String string) {
@@ -75,7 +84,7 @@ public abstract class EnumRule<E extends Enum<E>> extends LiteralRule<EnumRule<E
 
 	@Override
 	protected EnumRule<E> method_27338() {
-		return new EnumRuleImpl<>(this.type, this.value, this.supportedValues);
+		return new EnumRuleImpl<E>(this.type, this.value, this.supportedValues);
 	}
 
 	@Override
@@ -89,5 +98,39 @@ public abstract class EnumRule<E extends Enum<E>> extends LiteralRule<EnumRule<E
 		return this.value;
 	}
 
-	protected abstract void setValue(E value) throws IllegalArgumentException;
+	public E cycle(E start) {
+		if (this.supportedValues.size() > 1) {
+			return getNext(this.supportedValues, start);
+		}
+
+		return start;
+	}
+
+	protected static <T> T getNext(Collection<T> values, T value) {
+		Iterator<T> iterator = values.iterator();
+
+		do {
+			if (!iterator.hasNext()) {
+				return iterator.next();
+			}
+		} while(!iterator.next().equals(value));
+
+		if (iterator.hasNext()) {
+			return iterator.next();
+		} else {
+			return values.iterator().next();
+		}
+	}
+
+	public boolean supports(E value) {
+		for (E supportedValue : this.supportedValues) {
+			if (value == supportedValue) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public abstract void set(E value, /* @Nullable */ MinecraftServer server) throws IllegalArgumentException;
 }

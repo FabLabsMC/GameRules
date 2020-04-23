@@ -6,13 +6,17 @@ import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.EnumRule;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.FloatRule;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.StringRule;
 import io.github.fablabsmc.fablabs.impl.gamerule.client.widget.DoubleRuleWidget;
+import io.github.fablabsmc.fablabs.impl.gamerule.client.widget.EnumRuleWidget;
 import io.github.fablabsmc.fablabs.impl.gamerule.client.widget.FloatRuleWidget;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.class_5235;
 import net.minecraft.world.GameRules;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
+@Environment(EnvType.CLIENT)
 @Mixin(targets = "net/minecraft/class_5235$class_5241$1") // net/minecraft/EditGameRulesScreen$class_5241$1
 public abstract class MixinEditGameRulesScreen$class_5235$RuleTypeConsumer implements GameRules.RuleTypeConsumer, FabricRuleTypeConsumer {
 	@SuppressWarnings("ShadowTarget")
@@ -43,6 +47,8 @@ public abstract class MixinEditGameRulesScreen$class_5235$RuleTypeConsumer imple
 
 	@Override
 	public <E extends Enum<E>> void acceptEnumRule(GameRules.RuleKey<EnumRule<E>> key, GameRules.RuleType<EnumRule<E>> type) {
-
+		this.method_27640(key, (name, description, ruleName, rule) -> {
+			return new EnumRuleWidget<>(this.field_24314, name, description, ruleName, rule);
+		});
 	}
 }
