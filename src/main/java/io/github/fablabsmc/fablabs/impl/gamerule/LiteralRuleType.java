@@ -14,8 +14,8 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.world.GameRules;
 
 public abstract class LiteralRuleType<T extends LiteralRule<T>> extends GameRules.RuleType<T> {
-	public LiteralRuleType(Supplier<ArgumentType<?>> argumentType, Function<GameRules.RuleType<T>, T> ruleFactory, BiConsumer<MinecraftServer, T> changeCallback) {
-		super(argumentType, ruleFactory, changeCallback);
+	public LiteralRuleType(Supplier<ArgumentType<?>> argumentType, Function<GameRules.RuleType<T>, T> ruleFactory, BiConsumer<MinecraftServer, T> changeCallback, GameRules.class_5199<T> acceptor) {
+		super(argumentType, ruleFactory, changeCallback, acceptor);
 	}
 
 	@Override

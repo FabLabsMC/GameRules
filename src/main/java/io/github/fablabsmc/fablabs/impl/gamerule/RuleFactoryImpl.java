@@ -6,22 +6,19 @@ import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
+import io.github.fablabsmc.fablabs.api.gamerule.v1.FabricRuleTypeConsumer;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.RuleFactory;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.DoubleRule;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.EnumRule;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.FloatRule;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.StringRule;
-import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.TextRule;
 import io.github.fablabsmc.fablabs.impl.gamerule.rule.DoubleRuleImpl;
 import io.github.fablabsmc.fablabs.impl.gamerule.rule.EnumRuleImpl;
 import io.github.fablabsmc.fablabs.impl.gamerule.rule.FloatRuleImpl;
 import io.github.fablabsmc.fablabs.impl.gamerule.rule.StringRuleImpl;
-import io.github.fablabsmc.fablabs.impl.gamerule.rule.TextRuleImpl;
 import io.github.fablabsmc.fablabs.mixin.gamerule.GameRules$BooleanRuleAccessor;
 
-import net.minecraft.command.arguments.TextArgumentType;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.text.Text;
 import net.minecraft.world.GameRules;
 
 public class RuleFactoryImpl implements RuleFactory {
@@ -37,68 +34,63 @@ public class RuleFactoryImpl implements RuleFactory {
 
 	@Override
 	public GameRules.RuleType<GameRules.IntRule> createIntRule(int defaultValue, int lowerBound, int upperBound, BiConsumer<MinecraftServer, GameRules.IntRule> notifier) {
-		// fixme: use Invoker when issue is fixed: https://github.com/FabricMC/fabric-loom/issues/193
 		return new GameRules.RuleType<>(
-				//return GameRules$RuleTypeAccessor.invokeNew(
 				() -> IntegerArgumentType.integer(lowerBound, upperBound),
 				type -> new GameRules.IntRule(type, defaultValue),
-				notifier
+				notifier,
+				GameRules.RuleTypeConsumer::method_27330
 		);
 	}
 
 	@Override
 	public GameRules.RuleType<DoubleRule> createDoubleRule(double defaultValue, double lowerBound, double upperBound, BiConsumer<MinecraftServer, DoubleRule> notifier) {
-		// fixme: use Invoker when issue is fixed: https://github.com/FabricMC/fabric-loom/issues/193
 		return new GameRules.RuleType<>(
-				//return GameRules$RuleTypeAccessor.invokeNew(
 				() -> DoubleArgumentType.doubleArg(lowerBound, upperBound),
 				type -> new DoubleRuleImpl(type, defaultValue),
-				notifier
+				notifier,
+				this::acceptDouble
 		);
+	}
+
+	private void acceptDouble(GameRules.RuleTypeConsumer consumer, GameRules.RuleKey<DoubleRule> key, GameRules.RuleType<DoubleRule> type) {
+		if (consumer instanceof FabricRuleTypeConsumer) {
+			((FabricRuleTypeConsumer) consumer).acceptDoubleRule(key, type);
+		}
+		// TODO: Figure out
 	}
 
 	@Override
 	public GameRules.RuleType<FloatRule> createFloatRule(float defaultValue, float lowerBound, float upperBound, BiConsumer<MinecraftServer, FloatRule> notifier) {
-		// fixme: use Invoker when issue is fixed: https://github.com/FabricMC/fabric-loom/issues/193
 		return new GameRules.RuleType<>(
-				//return GameRules$RuleTypeAccessor.invokeNew(
 				() -> FloatArgumentType.floatArg(lowerBound, upperBound),
 				type -> new FloatRuleImpl(type, defaultValue),
-				notifier
+				notifier,
+				this::acceptFloat
 		);
 	}
 
-	@Override
-	public GameRules.RuleType<TextRule> createTextRule(Text defaultValue, BiConsumer<MinecraftServer, TextRule> notifier) {
-		// fixme: use Invoker when issue is fixed: https://github.com/FabricMC/fabric-loom/issues/193
-		return new GameRules.RuleType<>(
-				//return GameRules$RuleTypeAccessor.invokeNew(
-				TextArgumentType::text,
-				type -> new TextRuleImpl(type, defaultValue),
-				notifier
-		);
-	}
-
-	@Override
-	public GameRules.RuleType<StringRule> createStringWordRule(String defaultValue, BiConsumer<MinecraftServer, StringRule> notifier) {
-		// fixme: use Invoker when issue is fixed: https://github.com/FabricMC/fabric-loom/issues/193
-		return new GameRules.RuleType<>(
-				//return GameRules$RuleTypeAccessor.invokeNew(
-				StringArgumentType::word,
-				type -> new StringRuleImpl(type, defaultValue),
-				notifier
-		);
+	private void acceptFloat(GameRules.RuleTypeConsumer consumer, GameRules.RuleKey<FloatRule> key, GameRules.RuleType<FloatRule> type) {
+		if (consumer instanceof FabricRuleTypeConsumer) {
+			((FabricRuleTypeConsumer) consumer).acceptFloatRule(key, type);
+		}
+		// TODO: Figure out
 	}
 
 	@Override
 	public GameRules.RuleType<StringRule> createStringRule(String defaultValue, BiConsumer<MinecraftServer, StringRule> notifier) {
-		// fixme: use Invoker when issue is fixed: https://github.com/FabricMC/fabric-loom/issues/193
 		return new GameRules.RuleType<>(
-				//return GameRules$RuleTypeAccessor.invokeNew(
 				StringArgumentType::string,
 				type -> new StringRuleImpl(type, defaultValue),
-				notifier
+				notifier,
+				this::acceptString
 		);
+	}
+
+	private void acceptString(GameRules.RuleTypeConsumer consumer, GameRules.RuleKey<StringRule> key, GameRules.RuleType<StringRule> type) {
+		if (consumer instanceof FabricRuleTypeConsumer) {
+			((FabricRuleTypeConsumer) consumer).acceptStringRule(key, type);
+		}
+		// TODO: Figure out
 	}
 
 	@Override
@@ -110,7 +102,15 @@ public class RuleFactoryImpl implements RuleFactory {
 		return new EnumRuleType<>(
 				type -> new EnumRuleImpl<>(type, defaultValue, supportedValues),
 				notifier,
-				supportedValues
+				supportedValues,
+				this::acceptEnum
 		);
+	}
+
+	private <E extends Enum<E>> void acceptEnum(GameRules.RuleTypeConsumer consumer, GameRules.RuleKey<EnumRule<E>> key, GameRules.RuleType<EnumRule<E>> type) {
+		if (consumer instanceof FabricRuleTypeConsumer) {
+			((FabricRuleTypeConsumer) consumer).acceptEnumRule(key, type);
+		}
+		// TODO: Figure out
 	}
 }

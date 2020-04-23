@@ -4,10 +4,12 @@ import com.mojang.brigadier.context.CommandContext;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.FloatSupplier;
 import io.github.fablabsmc.fablabs.impl.gamerule.GameRuleRegistryImpl;
 
+import io.github.fablabsmc.fablabs.impl.gamerule.rule.FloatRuleImpl;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.world.GameRules;
 
-public abstract class FloatRule extends GameRules.Rule<FloatRule> implements FloatSupplier {
+public abstract class FloatRule extends GameRules.Rule<FloatRule> implements FloatSupplier, ValidateableRule {
 	private float value;
 
 	protected FloatRule(GameRules.RuleType<FloatRule> type, float value) {
@@ -38,7 +40,7 @@ public abstract class FloatRule extends GameRules.Rule<FloatRule> implements Flo
 	}
 
 	@Override
-	protected String serialize() {
+	public String serialize() {
 		return Float.toString(this.value);
 	}
 
@@ -50,6 +52,27 @@ public abstract class FloatRule extends GameRules.Rule<FloatRule> implements Flo
 	@Override
 	protected FloatRule getThis() {
 		return this;
+	}
+
+	@Override
+	protected FloatRule method_27338() {
+		return new FloatRuleImpl(this.type, this.value);
+	}
+
+	@Override
+	public void method_27337(FloatRule rule, MinecraftServer minecraftServer) {
+		this.value = rule.value;
+		this.changed(minecraftServer);
+	}
+
+	@Override
+	public boolean validate(String value) {
+		try {
+			Float.parseFloat(value);
+			return true;
+		} catch (NumberFormatException ignored) {
+			return false;
+		}
 	}
 
 	@Override

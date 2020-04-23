@@ -8,6 +8,11 @@
     "GameRules$BooleanRuleAccessor",
     "GameRulesAccessor"
   ],
+  "client": [
+    "client.EditGameRulesScreenAccessor",
+    "client.MixinEditGameRulesScreen$class_5235$RuleTypeConsumer",
+    "client.ScreenAccessor"
+  ],
   "injectors": {
     "defaultRequire": 1
   }

@@ -1,4 +1,5 @@
 accessWidener	v1	named
-extendable  method  net/minecraft/world/GameRules$RuleType <init>  (Ljava/util/function/Supplier;Ljava/util/function/Function;Ljava/util/function/BiConsumer;)V
-# fixme: Remove accessible issue when issue is fixed: https://github.com/FabricMC/fabric-loom/issues/193
-accessible  method  net/minecraft/world/GameRules$RuleType <init>  (Ljava/util/function/Supplier;Ljava/util/function/Function;Ljava/util/function/BiConsumer;)V
+extendable  method  net/minecraft/world/GameRules$RuleType <init>  (Ljava/util/function/Supplier;Ljava/util/function/Function;Ljava/util/function/BiConsumer;Lnet/minecraft/world/GameRules$class_5199;)V
+accessible  method  net/minecraft/world/GameRules$RuleType <init>  (Ljava/util/function/Supplier;Ljava/util/function/Function;Ljava/util/function/BiConsumer;Lnet/minecraft/world/GameRules$class_5199;)V
+accessible  class   net/minecraft/world/GameRules$class_5199
+accessible  class   net/minecraft/class_5235$class_5238

@@ -4,6 +4,8 @@ import java.util.function.Supplier;
 
 import io.github.fablabsmc.fablabs.impl.gamerule.GameRuleRegistryImpl;
 
+import io.github.fablabsmc.fablabs.impl.gamerule.rule.EnumRuleImpl;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.GameRules;
 
 public abstract class EnumRule<E extends Enum<E>> extends LiteralRule<EnumRule<E>> implements Supplier<E> {
@@ -48,7 +50,7 @@ public abstract class EnumRule<E extends Enum<E>> extends LiteralRule<EnumRule<E
 	}
 
 	@Override
-	protected String serialize() {
+	public String serialize() {
 		return Integer.toString(this.value.ordinal());
 	}
 
@@ -69,6 +71,17 @@ public abstract class EnumRule<E extends Enum<E>> extends LiteralRule<EnumRule<E
 	@Override
 	public String toString() {
 		return this.value.toString();
+	}
+
+	@Override
+	protected EnumRule<E> method_27338() {
+		return new EnumRuleImpl<>(this.type, this.value, this.supportedValues);
+	}
+
+	@Override
+	public void method_27337(EnumRule<E> rule, MinecraftServer minecraftServer) {
+		this.value = rule.value;
+		this.changed(minecraftServer);
 	}
 
 	@Override

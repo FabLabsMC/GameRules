@@ -5,10 +5,12 @@ import java.util.function.DoubleSupplier;
 import com.mojang.brigadier.context.CommandContext;
 import io.github.fablabsmc.fablabs.impl.gamerule.GameRuleRegistryImpl;
 
+import io.github.fablabsmc.fablabs.impl.gamerule.rule.DoubleRuleImpl;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.world.GameRules;
 
-public abstract class DoubleRule extends GameRules.Rule<DoubleRule> implements DoubleSupplier {
+public abstract class DoubleRule extends GameRules.Rule<DoubleRule> implements DoubleSupplier, ValidateableRule {
 	private double value;
 
 	protected DoubleRule(GameRules.RuleType<DoubleRule> type, double value) {
@@ -39,7 +41,7 @@ public abstract class DoubleRule extends GameRules.Rule<DoubleRule> implements D
 	}
 
 	@Override
-	protected String serialize() {
+	public String serialize() {
 		return Double.toString(this.value);
 	}
 
@@ -51,6 +53,27 @@ public abstract class DoubleRule extends GameRules.Rule<DoubleRule> implements D
 	@Override
 	protected DoubleRule getThis() {
 		return this;
+	}
+
+	@Override
+	protected DoubleRule method_27338() {
+		return new DoubleRuleImpl(this.type, this.value);
+	}
+
+	@Override
+	public void method_27337(DoubleRule rule, MinecraftServer minecraftServer) {
+		this.value = rule.value;
+		this.changed(minecraftServer);
+	}
+
+	@Override
+	public boolean validate(String value) {
+		try {
+			Double.parseDouble(value);
+			return true;
+		} catch (NumberFormatException ignored) {
+			return false;
+		}
 	}
 
 	@Override

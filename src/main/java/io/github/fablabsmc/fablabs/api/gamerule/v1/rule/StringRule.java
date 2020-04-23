@@ -3,7 +3,9 @@ package io.github.fablabsmc.fablabs.api.gamerule.v1.rule;
 import java.util.function.Supplier;
 
 import com.mojang.brigadier.context.CommandContext;
+import io.github.fablabsmc.fablabs.impl.gamerule.rule.StringRuleImpl;
 
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.world.GameRules;
 
@@ -26,7 +28,7 @@ public abstract class StringRule extends GameRules.Rule<StringRule> implements S
 	}
 
 	@Override
-	protected String serialize() {
+	public String serialize() {
 		return this.value;
 	}
 
@@ -38,6 +40,17 @@ public abstract class StringRule extends GameRules.Rule<StringRule> implements S
 	@Override
 	protected StringRule getThis() {
 		return this;
+	}
+
+	@Override
+	protected StringRule method_27338() {
+		return new StringRuleImpl(this.type, this.value);
+	}
+
+	@Override
+	public void method_27337(StringRule rule, MinecraftServer minecraftServer) {
+		this.value = rule.value;
+		this.changed(minecraftServer);
 	}
 
 	@Override

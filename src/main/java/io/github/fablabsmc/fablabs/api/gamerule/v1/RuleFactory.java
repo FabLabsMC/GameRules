@@ -6,7 +6,6 @@ import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.DoubleRule;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.EnumRule;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.FloatRule;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.StringRule;
-import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.TextRule;
 import io.github.fablabsmc.fablabs.impl.gamerule.RuleFactoryImpl;
 
 import net.minecraft.server.MinecraftServer;
@@ -97,20 +96,6 @@ public interface RuleFactory {
 	}
 
 	GameRules.RuleType<FloatRule> createFloatRule(float defaultValue, float lowerBound, float upperBound, BiConsumer<MinecraftServer, FloatRule> notifier);
-
-	default GameRules.RuleType<TextRule> createTextRule(Text defaultValue) {
-		return this.createTextRule(defaultValue, (server, rule) -> {
-		});
-	}
-
-	GameRules.RuleType<TextRule> createTextRule(Text defaultValue, BiConsumer<MinecraftServer, TextRule> notifier);
-
-	default GameRules.RuleType<StringRule> createStringWordRule(String defaultValue) {
-		return this.createStringWordRule(defaultValue, (server, rule) -> {
-		});
-	}
-
-	GameRules.RuleType<StringRule> createStringWordRule(String defaultValue, BiConsumer<MinecraftServer, StringRule> notifier);
 
 	default GameRules.RuleType<StringRule> createStringRule(String defaultValue) {
 		return this.createStringRule(defaultValue, (server, rule) -> {
