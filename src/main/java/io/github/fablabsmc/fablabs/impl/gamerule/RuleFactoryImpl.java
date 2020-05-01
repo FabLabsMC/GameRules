@@ -11,13 +11,10 @@ import io.github.fablabsmc.fablabs.api.gamerule.v1.RuleFactory;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.DoubleRule;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.EnumRule;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.FloatRule;
-import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.StringRule;
 import io.github.fablabsmc.fablabs.impl.gamerule.rule.DoubleRuleImpl;
 import io.github.fablabsmc.fablabs.impl.gamerule.rule.EnumRuleImpl;
 import io.github.fablabsmc.fablabs.impl.gamerule.rule.FloatRuleImpl;
-import io.github.fablabsmc.fablabs.impl.gamerule.rule.StringRuleImpl;
 import io.github.fablabsmc.fablabs.mixin.gamerule.GameRules$BooleanRuleAccessor;
-
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.GameRules;
 
@@ -38,7 +35,7 @@ public class RuleFactoryImpl implements RuleFactory {
 				() -> IntegerArgumentType.integer(lowerBound, upperBound),
 				type -> new GameRules.IntRule(type, defaultValue),
 				notifier,
-				GameRules.RuleTypeConsumer::method_27330
+				GameRules.RuleTypeConsumer::acceptInt
 		);
 	}
 
@@ -72,23 +69,6 @@ public class RuleFactoryImpl implements RuleFactory {
 	private void acceptFloat(GameRules.RuleTypeConsumer consumer, GameRules.RuleKey<FloatRule> key, GameRules.RuleType<FloatRule> type) {
 		if (consumer instanceof FabricRuleTypeConsumer) {
 			((FabricRuleTypeConsumer) consumer).acceptFloatRule(key, type);
-		}
-		// TODO: Figure out
-	}
-
-	@Override
-	public GameRules.RuleType<StringRule> createStringRule(String defaultValue, BiConsumer<MinecraftServer, StringRule> notifier) {
-		return new GameRules.RuleType<>(
-				StringArgumentType::string,
-				type -> new StringRuleImpl(type, defaultValue),
-				notifier,
-				this::acceptString
-		);
-	}
-
-	private void acceptString(GameRules.RuleTypeConsumer consumer, GameRules.RuleKey<StringRule> key, GameRules.RuleType<StringRule> type) {
-		if (consumer instanceof FabricRuleTypeConsumer) {
-			((FabricRuleTypeConsumer) consumer).acceptStringRule(key, type);
 		}
 		// TODO: Figure out
 	}

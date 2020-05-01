@@ -83,12 +83,12 @@ public abstract class EnumRule<E extends Enum<E>> extends LiteralRule<EnumRule<E
 	}
 
 	@Override
-	protected EnumRule<E> method_27338() {
+	protected EnumRule<E> copy() {
 		return new EnumRuleImpl<E>(this.type, this.value, this.supportedValues);
 	}
 
 	@Override
-	public void method_27337(EnumRule<E> rule, MinecraftServer minecraftServer) {
+	public void setValue(EnumRule<E> rule, MinecraftServer minecraftServer) {
 		this.value = rule.value;
 		this.changed(minecraftServer);
 	}

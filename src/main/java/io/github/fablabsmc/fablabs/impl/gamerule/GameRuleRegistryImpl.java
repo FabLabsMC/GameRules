@@ -16,7 +16,7 @@ public class GameRuleRegistryImpl implements GameRuleRegistry {
 	}
 
 	@Override
-	public <T extends GameRules.Rule<T>> GameRules.RuleKey<T> register(Identifier id, GameRules.class_5198 category, GameRules.RuleType<T> type) {
+	public <T extends GameRules.Rule<T>> GameRules.RuleKey<T> register(Identifier id, GameRules.RuleCategory category, GameRules.RuleType<T> type) {
 		return GameRulesAccessor.invokeRegister(id.toString(), category, type);
 	}
 }

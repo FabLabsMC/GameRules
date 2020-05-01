@@ -55,12 +55,12 @@ public abstract class FloatRule extends GameRules.Rule<FloatRule> implements Flo
 	}
 
 	@Override
-	protected FloatRule method_27338() {
+	protected FloatRule copy() {
 		return new FloatRuleImpl(this.type, this.value);
 	}
 
 	@Override
-	public void method_27337(FloatRule rule, MinecraftServer minecraftServer) {
+	public void setValue(FloatRule rule, MinecraftServer minecraftServer) {
 		this.value = rule.value;
 		this.changed(minecraftServer);
 	}

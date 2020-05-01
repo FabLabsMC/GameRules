@@ -18,5 +18,5 @@ public interface GameRuleRegistry {
 	 * @return a rule key which can be used to query the value of the rule
 	 * @throws IllegalStateException if a rule of the same name already exists.
 	 */
-	<T extends GameRules.Rule<T>> GameRules.RuleKey<T> register(Identifier id, GameRules.class_5198 category,  GameRules.RuleType<T> type);
+	<T extends GameRules.Rule<T>> GameRules.RuleKey<T> register(Identifier id, GameRules.RuleCategory category,  GameRules.RuleType<T> type);
 }

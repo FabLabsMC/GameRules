@@ -56,12 +56,12 @@ public abstract class DoubleRule extends GameRules.Rule<DoubleRule> implements D
 	}
 
 	@Override
-	protected DoubleRule method_27338() {
+	protected DoubleRule copy() {
 		return new DoubleRuleImpl(this.type, this.value);
 	}
 
 	@Override
-	public void method_27337(DoubleRule rule, MinecraftServer minecraftServer) {
+	public void setValue(DoubleRule rule, MinecraftServer minecraftServer) {
 		this.value = rule.value;
 		this.changed(minecraftServer);
 	}

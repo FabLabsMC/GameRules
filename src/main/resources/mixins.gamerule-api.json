@@ -10,7 +10,7 @@
   ],
   "client": [
     "client.EditGameRulesScreenAccessor",
-    "client.MixinEditGameRulesScreen$class_5235$RuleTypeConsumer",
+    "client.MixinEditGameRulesScreen$RuleListWidget$RuleTypeConsumer",
     "client.ScreenAccessor"
   ],
   "injectors": {

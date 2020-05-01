@@ -5,11 +5,9 @@ import java.util.function.BiConsumer;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.DoubleRule;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.EnumRule;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.FloatRule;
-import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.StringRule;
 import io.github.fablabsmc.fablabs.impl.gamerule.RuleFactoryImpl;
 
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.text.Text;
 import net.minecraft.world.GameRules;
 
 public interface RuleFactory {
@@ -96,13 +94,6 @@ public interface RuleFactory {
 	}
 
 	GameRules.RuleType<FloatRule> createFloatRule(float defaultValue, float lowerBound, float upperBound, BiConsumer<MinecraftServer, FloatRule> notifier);
-
-	default GameRules.RuleType<StringRule> createStringRule(String defaultValue) {
-		return this.createStringRule(defaultValue, (server, rule) -> {
-		});
-	}
-
-	GameRules.RuleType<StringRule> createStringRule(String defaultValue, BiConsumer<MinecraftServer, StringRule> notifier);
 
 	default <E extends Enum<E>> GameRules.RuleType<EnumRule<E>> createEnumRule(E defaultValue) {
 		return this.createEnumRule(defaultValue, (server, rule) -> {

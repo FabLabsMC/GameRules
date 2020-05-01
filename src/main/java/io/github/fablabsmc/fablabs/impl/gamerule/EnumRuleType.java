@@ -16,7 +16,7 @@ import net.minecraft.world.GameRules;
 class EnumRuleType<E extends Enum<E>> extends LiteralRuleType<EnumRule<E>> {
 	private final E[] supportedValues;
 
-	EnumRuleType(Function<GameRules.RuleType<EnumRule<E>>, EnumRule<E>> ruleFactory, BiConsumer<MinecraftServer, EnumRule<E>> changeCallback, E[] supportedValues, GameRules.class_5199<EnumRule<E>> acceptor) {
+	EnumRuleType(Function<GameRules.RuleType<EnumRule<E>>, EnumRule<E>> ruleFactory, BiConsumer<MinecraftServer, EnumRule<E>> changeCallback, E[] supportedValues, GameRules.RuleAcceptor<EnumRule<E>> acceptor) {
 		super(null, ruleFactory, changeCallback, acceptor);
 		this.supportedValues = supportedValues;
 	}
