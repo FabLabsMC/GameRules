@@ -5,12 +5,13 @@
   "mixins": [
     "GameRuleCommandAccessor",
     "GameRuleCommandMixin$RuleConsumer",
+    "GameRules$IntRuleAccessor",
     "GameRules$BooleanRuleAccessor",
     "GameRulesAccessor"
   ],
   "client": [
+    "client.EditGameRulesScreen$RuleListWidget$RuleTypeConsumerMixin",
     "client.EditGameRulesScreenAccessor",
-    "client.MixinEditGameRulesScreen$RuleListWidget$RuleTypeConsumer",
     "client.ScreenAccessor"
   ],
   "injectors": {

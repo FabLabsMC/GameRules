@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.EnumRule;
+
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.world.EditGameRulesScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -11,6 +12,10 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+
+@Environment(EnvType.CLIENT)
 public class EnumRuleWidget<E extends Enum<E>> extends EditGameRulesScreen.AbstractRuleWidget {
 	private final List<? extends Element> children;
 	private final ButtonWidget buttonWidget;

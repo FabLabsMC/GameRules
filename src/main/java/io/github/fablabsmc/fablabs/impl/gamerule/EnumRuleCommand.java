@@ -4,7 +4,6 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.EnumRule;
-import io.github.fablabsmc.fablabs.impl.gamerule.rule.EnumRuleImpl;
 
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.LiteralText;
@@ -15,7 +14,7 @@ final class EnumRuleCommand {
 	public static <E extends Enum<E>> int executeEnumSet(CommandContext<ServerCommandSource> context, int ordinal, GameRules.RuleKey<EnumRule<E>> key) throws CommandSyntaxException {
 		// Mostly copied from vanilla, but tweaked so we can use literals
 		ServerCommandSource serverCommandSource = context.getSource();
-		EnumRuleImpl<E> rule = (EnumRuleImpl<E>) serverCommandSource.getMinecraftServer().getGameRules().get(key);
+		EnumRule<E> rule = serverCommandSource.getMinecraftServer().getGameRules().get(key);
 
 		try {
 			rule.set(rule.getEnumClass().getEnumConstants()[ordinal], serverCommandSource.getMinecraftServer());

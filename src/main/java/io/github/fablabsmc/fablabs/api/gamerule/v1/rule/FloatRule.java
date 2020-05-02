@@ -2,19 +2,27 @@ package io.github.fablabsmc.fablabs.api.gamerule.v1.rule;
 
 import com.mojang.brigadier.context.CommandContext;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.FloatSupplier;
-import io.github.fablabsmc.fablabs.impl.gamerule.GameRuleRegistryImpl;
+import io.github.fablabsmc.fablabs.api.gamerule.v1.GameRuleRegistry;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import io.github.fablabsmc.fablabs.impl.gamerule.rule.FloatRuleImpl;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.world.GameRules;
 
-public abstract class FloatRule extends GameRules.Rule<FloatRule> implements FloatSupplier, ValidateableRule {
+public class FloatRule extends GameRules.Rule<FloatRule> implements FloatSupplier, ValidateableRule {
+	private static final Logger LOGGER = LogManager.getLogger(GameRuleRegistry.class);
+
+	private final float lowerBound;
+	private final float upperBound;
 	private float value;
 
-	protected FloatRule(GameRules.RuleType<FloatRule> type, float value) {
+	@Deprecated
+	public FloatRule(GameRules.RuleType<FloatRule> type, float value, float lowerBound, float upperBound) {
 		super(type);
 		this.value = value;
+		this.lowerBound = lowerBound;
+		this.upperBound = upperBound;
 	}
 
 	@Override
@@ -24,7 +32,14 @@ public abstract class FloatRule extends GameRules.Rule<FloatRule> implements Flo
 
 	@Override
 	protected void deserialize(String value) {
-		this.value = FloatRule.parseFloat(value);
+		final float f = FloatRule.parseFloat(value);
+
+		if (this.lowerBound > f || this.upperBound < f) {
+			LOGGER.warn("Failed to parse float {}. Was out of bounds {} - {}", value, this.lowerBound, this.upperBound);
+			return;
+		}
+
+		this.value = f;
 	}
 
 	private static float parseFloat(String string) {
@@ -32,7 +47,7 @@ public abstract class FloatRule extends GameRules.Rule<FloatRule> implements Flo
 			try {
 				return Float.parseFloat(string);
 			} catch (NumberFormatException e) {
-				GameRuleRegistryImpl.LOGGER.warn("Failed to parse float {}", string);
+				LOGGER.warn("Failed to parse float {}", string);
 			}
 		}
 
@@ -56,7 +71,7 @@ public abstract class FloatRule extends GameRules.Rule<FloatRule> implements Flo
 
 	@Override
 	protected FloatRule copy() {
-		return new FloatRuleImpl(this.type, this.value);
+		return new FloatRule(this.type, this.value, this.lowerBound, this.upperBound);
 	}
 
 	@Override
@@ -68,8 +83,9 @@ public abstract class FloatRule extends GameRules.Rule<FloatRule> implements Flo
 	@Override
 	public boolean validate(String value) {
 		try {
-			Float.parseFloat(value);
-			return true;
+			final float f = Float.parseFloat(value);
+
+			return !(this.lowerBound > f) && !(this.upperBound < f);
 		} catch (NumberFormatException ignored) {
 			return false;
 		}

@@ -3,10 +3,11 @@ package io.github.fablabsmc.fablabs.api.gamerule.v1;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.DoubleRule;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.EnumRule;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.FloatRule;
+
 import net.minecraft.world.GameRules;
 
 /**
- * An extended RuleTypeConsumer which supports fabric's own Rules.
+ * An extended RuleTypeConsumer which supports fabric's own rule types.
  */
 public interface FabricRuleTypeConsumer extends GameRules.RuleTypeConsumer {
 	default void acceptDoubleRule(GameRules.RuleKey<DoubleRule> key, GameRules.RuleType<DoubleRule> type) {

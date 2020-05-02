@@ -1,17 +1,22 @@
 package io.github.fablabsmc.fablabs.impl.gamerule.client.widget;
 
+import java.util.List;
+
 import com.google.common.collect.ImmutableList;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.FloatRule;
 import io.github.fablabsmc.fablabs.mixin.gamerule.client.EditGameRulesScreenAccessor;
 import io.github.fablabsmc.fablabs.mixin.gamerule.client.ScreenAccessor;
+
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.world.EditGameRulesScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
-import java.util.List;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
+@Environment(EnvType.CLIENT)
 public class FloatRuleWidget extends EditGameRulesScreen.AbstractRuleWidget {
 	private final List<? extends Element> children;
 	private final TextFieldWidget textFieldWidget;
@@ -36,12 +41,11 @@ public class FloatRuleWidget extends EditGameRulesScreen.AbstractRuleWidget {
 		this.textFieldWidget.setChangedListener(value -> {
 			if (rule.validate(value)) {
 				this.textFieldWidget.setEditableColor(14737632);
-				accessor.markValid(this);
+				accessor.callMarkValid(this);
 			} else {
 				this.textFieldWidget.setEditableColor(16711680);
-				accessor.markInvalid(this);
+				accessor.callMarkInvalid(this);
 			}
-
 		});
 
 		this.children = ImmutableList.of(this.textFieldWidget);

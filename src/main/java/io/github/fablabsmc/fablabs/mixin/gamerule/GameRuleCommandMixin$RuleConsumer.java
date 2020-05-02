@@ -17,9 +17,8 @@ public abstract class GameRuleCommandMixin$RuleConsumer {
 	@Shadow
 	private LiteralArgumentBuilder<ServerCommandSource> field_19419;
 
-	@SuppressWarnings("UnresolvedMixinReference")
 	@Inject(at = @At("HEAD"), method = "accept(Lnet/minecraft/world/GameRules$RuleKey;Lnet/minecraft/world/GameRules$RuleType;)V", cancellable = true)
-	private <T extends GameRules.Rule<T>> void lgb_onRegisterCommand(GameRules.RuleKey<T> key, GameRules.RuleType<T> type, CallbackInfo ci) {
+	private <T extends GameRules.Rule<T>> void onRegisterCommand(GameRules.RuleKey<T> key, GameRules.RuleType<T> type, CallbackInfo ci) {
 		// Check if our type is a LiteralRuleType
 		if (type instanceof LiteralRuleType) {
 			//noinspection rawtypes,unchecked

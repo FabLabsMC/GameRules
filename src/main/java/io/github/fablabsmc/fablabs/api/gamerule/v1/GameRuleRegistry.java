@@ -1,12 +1,13 @@
 package io.github.fablabsmc.fablabs.api.gamerule.v1;
 
-import io.github.fablabsmc.fablabs.impl.gamerule.GameRuleRegistryImpl;
+import io.github.fablabsmc.fablabs.mixin.gamerule.GameRulesAccessor;
 
 import net.minecraft.util.Identifier;
 import net.minecraft.world.GameRules;
 
-public interface GameRuleRegistry {
-	GameRuleRegistry INSTANCE = GameRuleRegistryImpl.INSTANCE;
+public final class GameRuleRegistry {
+	private GameRuleRegistry() {
+	}
 
 	/**
 	 * Registers a {@link GameRules.Rule}.
@@ -18,5 +19,7 @@ public interface GameRuleRegistry {
 	 * @return a rule key which can be used to query the value of the rule
 	 * @throws IllegalStateException if a rule of the same name already exists.
 	 */
-	<T extends GameRules.Rule<T>> GameRules.RuleKey<T> register(Identifier id, GameRules.RuleCategory category,  GameRules.RuleType<T> type);
+	public static <T extends GameRules.Rule<T>> GameRules.RuleKey<T> register(Identifier id, GameRules.RuleCategory category, GameRules.RuleType<T> type) {
+		return GameRulesAccessor.invokeRegister(id.toString(), category, type);
+	}
 }

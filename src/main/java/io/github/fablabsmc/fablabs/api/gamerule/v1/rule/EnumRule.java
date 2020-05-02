@@ -1,28 +1,34 @@
 package io.github.fablabsmc.fablabs.api.gamerule.v1.rule;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.function.Supplier;
 
-import io.github.fablabsmc.fablabs.impl.gamerule.GameRuleRegistryImpl;
+import io.github.fablabsmc.fablabs.api.gamerule.v1.GameRuleRegistry;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import io.github.fablabsmc.fablabs.impl.gamerule.rule.EnumRuleImpl;
-import net.minecraft.block.BlockState;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.GameRules;
 
-public abstract class EnumRule<E extends Enum<E>> extends LiteralRule<EnumRule<E>> implements Supplier<E> {
+public class EnumRule<E extends Enum<E>> extends LiteralRule<EnumRule<E>> implements Supplier<E> {
+	private static final Logger LOGGER = LogManager.getLogger(GameRuleRegistry.class);
+
 	private final Class<E> classType;
 	protected final Collection<E> supportedValues;
 	protected E value;
 
-	protected EnumRule(GameRules.RuleType<EnumRule<E>> type, E value, E[] supportedValues) {
+	@Deprecated
+	public EnumRule(GameRules.RuleType<EnumRule<E>> type, E value, E[] supportedValues) {
 		this(type, value, Arrays.asList(supportedValues));
 	}
 
-	protected EnumRule(GameRules.RuleType<EnumRule<E>> type, E value, Collection<E> supportedValues) {
+	@Deprecated
+	public EnumRule(GameRules.RuleType<EnumRule<E>> type, E value, Collection<E> supportedValues) {
 		super(type);
 		this.classType = value.getDeclaringClass();
 		this.value = value;
@@ -35,12 +41,12 @@ public abstract class EnumRule<E extends Enum<E>> extends LiteralRule<EnumRule<E
 		E[] possibleValues = this.classType.getEnumConstants();
 
 		if (possibleValues.length <= ordinal + 1) { // Our ordinal doesn't exist, log the issue
-			GameRuleRegistryImpl.LOGGER.warn("Failed to parse int {} for rule of type {}. Since it's ordinal is not present", ordinal, this.classType);
+			LOGGER.warn("Failed to parse int {} for rule of type {}. Since it's ordinal is not present", ordinal, this.classType);
 			return;
 		}
 
 		if (!this.supports(possibleValues[ordinal])) {
-			GameRuleRegistryImpl.LOGGER.warn("Failed to parse int {} for rule of type {}.", ordinal, this.classType);
+			LOGGER.warn("Failed to parse int {} for rule of type {}.", ordinal, this.classType);
 		}
 
 		this.set(possibleValues[ordinal], null);
@@ -51,7 +57,7 @@ public abstract class EnumRule<E extends Enum<E>> extends LiteralRule<EnumRule<E
 			try {
 				return Integer.parseInt(string);
 			} catch (NumberFormatException e) {
-				GameRuleRegistryImpl.LOGGER.warn("Failed to parse int {} for rule of type {}", string, this.classType);
+				LOGGER.warn("Failed to parse int {} for rule of type {}", string, this.classType);
 			}
 		}
 
@@ -84,7 +90,7 @@ public abstract class EnumRule<E extends Enum<E>> extends LiteralRule<EnumRule<E
 
 	@Override
 	protected EnumRule<E> copy() {
-		return new EnumRuleImpl<E>(this.type, this.value, this.supportedValues);
+		return new EnumRule<E>(this.type, this.value, this.supportedValues);
 	}
 
 	@Override
@@ -100,7 +106,12 @@ public abstract class EnumRule<E extends Enum<E>> extends LiteralRule<EnumRule<E
 
 	public E cycle(E start) {
 		if (this.supportedValues.size() > 1) {
-			return getNext(this.supportedValues, start);
+			E value = getNext(this.supportedValues, start);
+
+			return value;
+			//if (!supportedValues.contains(value)) {
+			//		return this.cycle(value);
+			//}
 		}
 
 		return start;
@@ -113,7 +124,7 @@ public abstract class EnumRule<E extends Enum<E>> extends LiteralRule<EnumRule<E
 			if (!iterator.hasNext()) {
 				return iterator.next();
 			}
-		} while(!iterator.next().equals(value));
+		} while (!iterator.next().equals(value));
 
 		if (iterator.hasNext()) {
 			return iterator.next();
@@ -132,5 +143,14 @@ public abstract class EnumRule<E extends Enum<E>> extends LiteralRule<EnumRule<E
 		return false;
 	}
 
-	public abstract void set(E value, /* @Nullable */ MinecraftServer server) throws IllegalArgumentException;
+	public void set(E value, /* @Nullable */ MinecraftServer server) throws IllegalArgumentException {
+		checkNotNull(value);
+
+		if (!this.supports(value)) {
+			throw new IllegalArgumentException("Tried to set an unsupported value: " + value.toString());
+		}
+
+		this.value = value;
+		this.changed(server);
+	}
 }

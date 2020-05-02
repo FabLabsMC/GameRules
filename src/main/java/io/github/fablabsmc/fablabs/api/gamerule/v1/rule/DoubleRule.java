@@ -3,19 +3,27 @@ package io.github.fablabsmc.fablabs.api.gamerule.v1.rule;
 import java.util.function.DoubleSupplier;
 
 import com.mojang.brigadier.context.CommandContext;
-import io.github.fablabsmc.fablabs.impl.gamerule.GameRuleRegistryImpl;
+import io.github.fablabsmc.fablabs.api.gamerule.v1.GameRuleRegistry;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import io.github.fablabsmc.fablabs.impl.gamerule.rule.DoubleRuleImpl;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.world.GameRules;
 
-public abstract class DoubleRule extends GameRules.Rule<DoubleRule> implements DoubleSupplier, ValidateableRule {
+public class DoubleRule extends GameRules.Rule<DoubleRule> implements DoubleSupplier, ValidateableRule {
+	private static final Logger LOGGER = LogManager.getLogger(GameRuleRegistry.class);
+
+	private final double lowerBound;
+	private final double upperBound;
 	private double value;
 
-	protected DoubleRule(GameRules.RuleType<DoubleRule> type, double value) {
+	@Deprecated
+	public DoubleRule(GameRules.RuleType<DoubleRule> type, double value, double lowerBound, double upperBound) {
 		super(type);
 		this.value = value;
+		this.lowerBound = lowerBound;
+		this.upperBound = upperBound;
 	}
 
 	@Override
@@ -25,7 +33,14 @@ public abstract class DoubleRule extends GameRules.Rule<DoubleRule> implements D
 
 	@Override
 	protected void deserialize(String value) {
-		this.value = DoubleRule.parseDouble(value);
+		final double d = DoubleRule.parseDouble(value);
+
+		if (this.lowerBound > d || this.upperBound < d) {
+			LOGGER.warn("Failed to parse double {}. Was out of bounds {} - {}", value, this.lowerBound, this.upperBound);
+			return;
+		}
+
+		this.value = d;
 	}
 
 	private static double parseDouble(String string) {
@@ -33,7 +48,7 @@ public abstract class DoubleRule extends GameRules.Rule<DoubleRule> implements D
 			try {
 				return Double.parseDouble(string);
 			} catch (NumberFormatException e) {
-				GameRuleRegistryImpl.LOGGER.warn("Failed to parse double {}", string);
+				LOGGER.warn("Failed to parse double {}", string);
 			}
 		}
 
@@ -57,7 +72,7 @@ public abstract class DoubleRule extends GameRules.Rule<DoubleRule> implements D
 
 	@Override
 	protected DoubleRule copy() {
-		return new DoubleRuleImpl(this.type, this.value);
+		return new DoubleRule(this.type, this.value, this.lowerBound, this.upperBound);
 	}
 
 	@Override
@@ -69,8 +84,9 @@ public abstract class DoubleRule extends GameRules.Rule<DoubleRule> implements D
 	@Override
 	public boolean validate(String value) {
 		try {
-			Double.parseDouble(value);
-			return true;
+			final double d = Double.parseDouble(value);
+
+			return !(this.lowerBound > d) && !(this.upperBound < d);
 		} catch (NumberFormatException ignored) {
 			return false;
 		}
