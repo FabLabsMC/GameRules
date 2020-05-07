@@ -1,7 +1,6 @@
 package io.github.fablabsmc.fablabs.api.gamerule.v1.rule;
 
 import com.mojang.brigadier.context.CommandContext;
-import io.github.fablabsmc.fablabs.api.gamerule.v1.FloatSupplier;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.GameRuleRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,7 +9,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.world.GameRules;
 
-public class FloatRule extends GameRules.Rule<FloatRule> implements FloatSupplier, ValidateableRule {
+public class FloatRule extends GameRules.Rule<FloatRule> implements ValidateableRule {
 	private static final Logger LOGGER = LogManager.getLogger(GameRuleRegistry.class);
 
 	private final float lowerBound;
@@ -91,8 +90,7 @@ public class FloatRule extends GameRules.Rule<FloatRule> implements FloatSupplie
 		}
 	}
 
-	@Override
-	public float getAsFloat() {
+	public float get() {
 		return this.value;
 	}
 }

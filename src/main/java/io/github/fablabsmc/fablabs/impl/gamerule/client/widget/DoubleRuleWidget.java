@@ -37,7 +37,7 @@ public class DoubleRuleWidget extends EditGameRulesScreen.AbstractRuleWidget {
 				.append("\n")
 		);
 
-		this.textFieldWidget.setText(Double.toString(rule.getAsDouble()));
+		this.textFieldWidget.setText(Double.toString(rule.get()));
 		this.textFieldWidget.setChangedListener(value -> {
 			if (rule.validate(value)) {
 				this.textFieldWidget.setEditableColor(14737632);

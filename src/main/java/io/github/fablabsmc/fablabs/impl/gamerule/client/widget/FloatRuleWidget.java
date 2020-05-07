@@ -37,7 +37,7 @@ public class FloatRuleWidget extends EditGameRulesScreen.AbstractRuleWidget {
 						.append("\n")
 		);
 
-		this.textFieldWidget.setText(Float.toString(rule.getAsFloat()));
+		this.textFieldWidget.setText(Float.toString(rule.get()));
 		this.textFieldWidget.setChangedListener(value -> {
 			if (rule.validate(value)) {
 				this.textFieldWidget.setEditableColor(14737632);

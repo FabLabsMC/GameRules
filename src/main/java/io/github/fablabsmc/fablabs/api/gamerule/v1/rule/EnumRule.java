@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.function.Supplier;
 
 import io.github.fablabsmc.fablabs.api.gamerule.v1.GameRuleRegistry;
 import org.apache.logging.log4j.LogManager;
@@ -15,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.GameRules;
 
-public class EnumRule<E extends Enum<E>> extends LiteralRule<EnumRule<E>> implements Supplier<E> {
+public class EnumRule<E extends Enum<E>> extends LiteralRule<EnumRule<E>> {
 	private static final Logger LOGGER = LogManager.getLogger(GameRuleRegistry.class);
 
 	private final Class<E> classType;
@@ -99,7 +98,6 @@ public class EnumRule<E extends Enum<E>> extends LiteralRule<EnumRule<E>> implem
 		this.changed(minecraftServer);
 	}
 
-	@Override
 	public E get() {
 		return this.value;
 	}
