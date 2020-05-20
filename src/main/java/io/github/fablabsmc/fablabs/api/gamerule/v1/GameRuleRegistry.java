@@ -1,10 +1,11 @@
 package io.github.fablabsmc.fablabs.api.gamerule.v1;
 
+import java.util.HashMap;
+
 import io.github.fablabsmc.fablabs.mixin.gamerule.GameRulesAccessor;
+
 import net.minecraft.util.Identifier;
 import net.minecraft.world.GameRules;
-
-import java.util.HashMap;
 
 public final class GameRuleRegistry {
 	public static final HashMap<GameRules.RuleKey<?>, FabricGameRuleCategory> MAP = new HashMap<>();

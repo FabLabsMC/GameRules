@@ -1,20 +1,22 @@
 package io.github.fablabsmc.fablabs.impl.gamerule;
 
+import java.util.Arrays;
+
 import io.github.fablabsmc.fablabs.api.gamerule.v1.FabricGameRuleCategory;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.GameRuleRegistry;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.RuleFactory;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.DoubleRule;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.EnumRule;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.FloatRule;
-import net.fabricmc.api.ModInitializer;
-import net.fabricmc.loader.api.FabricLoader;
+
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.GameRules;
 
-import java.util.Arrays;
+import net.fabricmc.api.ModInitializer;
+import net.fabricmc.loader.api.FabricLoader;
 
 @Deprecated
 public class TestRules implements ModInitializer {
@@ -37,27 +39,28 @@ public class TestRules implements ModInitializer {
 			register("green_bool", GREEN_CATEGORY, RuleFactory.createBooleanRule(false));
 
 	public static final GameRules.RuleKey<GameRules.BooleanRule> TEST_BOOL_RED =
-			register( "red_bool", RED_CATEGORY, RuleFactory.createBooleanRule(false));
+			register("red_bool", RED_CATEGORY, RuleFactory.createBooleanRule(false));
 
 	public static final GameRules.RuleKey<EnumRule<Direction>> TEST_ENUM_RED =
 			register("red_enum", RED_CATEGORY, RuleFactory.createEnumRule(Direction.NORTH));
-
 
 	@Override
 	public void onInitialize() {
 	}
 
 	private static <T extends GameRules.Rule<T>> GameRules.RuleKey<T> register(String path, GameRules.RuleCategory category, GameRules.RuleType<T> type) {
-		if (FabricLoader.getInstance().isDevelopmentEnvironment())
+		if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
 			return GameRuleRegistry.register(new Identifier("test", path), category, type);
-		else
+		} else {
 			return null;
+		}
 	}
 
 	private static <T extends GameRules.Rule<T>> GameRules.RuleKey<T> register(String path, FabricGameRuleCategory category, GameRules.RuleType<T> type) {
-		if (FabricLoader.getInstance().isDevelopmentEnvironment())
+		if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
 			return GameRuleRegistry.register(new Identifier("test", path), category, type);
-		else
+		} else {
 			return null;
+		}
 	}
 }
