@@ -42,7 +42,7 @@ public abstract class EditGameRulesScreen$RuleListWidgetMixin extends ElementLis
 		if (RuleCategories.containsKey(entry.getKey())) {
 			FabricGameRuleCategory category = RuleCategories.get(entry.getKey());
 			fabricCategories.putIfAbsent(category, new ArrayList<>());
-			fabricCategories.get(category).add(entry.getValue());
+			fabricCategories.computeIfAbsent(category, c -> new ArrayList<>()).add(entry.getValue());
 			ci.cancel();
 		}
 	}
