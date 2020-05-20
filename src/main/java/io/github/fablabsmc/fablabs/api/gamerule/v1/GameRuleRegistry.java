@@ -34,7 +34,7 @@ public final class GameRuleRegistry {
 	 * @return a rule key which can be used to query the value of the rule
 	 * @throws IllegalStateException if a rule of the same name already exists
 	 */
-	public static <T extends GameRules.Rule<T>> GameRules.RuleKey<T> register(Identifier id, FabricGameRuleCategory category, GameRules.RuleType<T> type) {
+	public static <T extends GameRules.Rule<T>> GameRules.RuleKey<T> register(Identifier id, CustomGameRuleCategory category, GameRules.RuleType<T> type) {
 		GameRules.RuleKey<T> key = GameRulesAccessor.invokeRegister(id.toString(), GameRules.RuleCategory.MISC, type);
 		RuleCategories.putIfAbsent(key, category);
 		return key;

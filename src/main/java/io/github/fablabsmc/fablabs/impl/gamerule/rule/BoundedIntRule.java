@@ -31,8 +31,7 @@ public class BoundedIntRule extends GameRules.IntRule {
 			return;
 		}
 
-		GameRules$IntRuleAccessor accessor = (GameRules$IntRuleAccessor) this;
-		accessor.setValue(i);
+		((GameRules$IntRuleAccessor) this).setValue(i);
 	}
 
 	@Override
@@ -45,8 +44,7 @@ public class BoundedIntRule extends GameRules.IntRule {
 				return false;
 			}
 
-			GameRules$IntRuleAccessor accessor = (GameRules$IntRuleAccessor) this;
-			accessor.setValue(value);
+			((GameRules$IntRuleAccessor) this).setValue(value);
 			return true;
 		} catch (NumberFormatException var3) {
 			return false;

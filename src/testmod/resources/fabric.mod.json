@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "fablabs-gamerule-api-v1-testmod",
+  "version": "1.0.0",
+  "name": "FabLabs GameRule API version 1 testmod",
+  "description": "A Testmod API draft for GameRules",
+  "license": "MIT",
+  "environment": "*",
+  "depends": {
+    "fabricloader": ">=0.8.0",
+    "fablabs-gamerule-api-v1": "*"
+  },
+  "entrypoints": {
+    "main": [
+      "io.github.fablabsmc.fablabs.test.gamerule.TestRulesMod"
+    ]
+  }
+}
