@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
-import io.github.fablabsmc.fablabs.api.gamerule.v1.GameRuleRegistry;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.FabricGameRuleCategory;
+import io.github.fablabsmc.fablabs.impl.gamerule.RuleCategories;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -22,7 +22,7 @@ public abstract class EditGameRulesScreen$RuleListWidgetMixin extends ElementLis
 		super(minecraftClient, i, j, k, l, m);
 	}
 
-	private Map<FabricGameRuleCategory, ArrayList<EditGameRulesScreen.AbstractRuleWidget>> fabricCategories = new TreeMap<>();
+	private final Map<FabricGameRuleCategory, ArrayList<EditGameRulesScreen.AbstractRuleWidget>> fabricCategories = new TreeMap<>();
 
 	@SuppressWarnings("InvalidInjectorMethodSignature")
 	@Inject(method = "<init>", at = @At("TAIL"))
@@ -39,8 +39,8 @@ public abstract class EditGameRulesScreen$RuleListWidgetMixin extends ElementLis
 	@SuppressWarnings("UnresolvedMixinReference")
 	@Inject(method = "method_27638(Ljava/util/Map$Entry;)V", at = @At("HEAD"), cancellable = true)
 	private void dontShowFabric(Map.Entry<GameRules.RuleKey<?>, EditGameRulesScreen.AbstractRuleWidget> entry, CallbackInfo ci) {
-		if (GameRuleRegistry.MAP.containsKey(entry.getKey())) {
-			FabricGameRuleCategory category = GameRuleRegistry.MAP.get(entry.getKey());
+		if (RuleCategories.containsKey(entry.getKey())) {
+			FabricGameRuleCategory category = RuleCategories.get(entry.getKey());
 			fabricCategories.putIfAbsent(category, new ArrayList<>());
 			fabricCategories.get(category).add(entry.getValue());
 			ci.cancel();

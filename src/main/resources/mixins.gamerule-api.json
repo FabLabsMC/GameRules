@@ -5,8 +5,8 @@
   "mixins": [
     "GameRuleCommandAccessor",
     "GameRuleCommandMixin$RuleConsumer",
-    "GameRules$BooleanRuleAccessor",
     "GameRules$IntRuleAccessor",
+    "GameRules$BooleanRuleAccessor",
     "GameRulesAccessor"
   ],
   "client": [

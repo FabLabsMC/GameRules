@@ -20,9 +20,11 @@ import net.fabricmc.loader.api.FabricLoader;
 
 @Deprecated
 public class TestRules implements ModInitializer {
-	public static final FabricGameRuleCategory GREEN_CATEGORY = new FabricGameRuleCategory(new LiteralText("This One is Green").styled(style -> style.withBold(true).withColor(Formatting.DARK_GREEN)));
+	public static final FabricGameRuleCategory GREEN_CATEGORY = new FabricGameRuleCategory(new Identifier("test", "green"),
+			new LiteralText("This One is Green").styled(style -> style.withBold(true).withColor(Formatting.DARK_GREEN)));
 
-	public static final FabricGameRuleCategory RED_CATEGORY = new FabricGameRuleCategory(new LiteralText("This One is Red").styled(style -> style.withBold(true).withColor(Formatting.DARK_RED)));
+	public static final FabricGameRuleCategory RED_CATEGORY = new FabricGameRuleCategory(new Identifier("test", "red"),
+			new LiteralText("This One is Red").styled(style -> style.withBold(true).withColor(Formatting.DARK_RED)));
 
 	public static final GameRules.RuleKey<GameRules.IntRule> TEST_INT_RULE = register("boundy", GameRules.RuleCategory.MISC, RuleFactory.createIntRule(2, 0));
 	public static final GameRules.RuleKey<DoubleRule> TEST_DOB = register("bound2", GameRules.RuleCategory.MISC, RuleFactory.createDoubleRule(1, 1.0D, 10.0D));

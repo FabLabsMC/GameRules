@@ -1,15 +1,12 @@
 package io.github.fablabsmc.fablabs.api.gamerule.v1;
 
-import java.util.HashMap;
-
+import io.github.fablabsmc.fablabs.impl.gamerule.RuleCategories;
 import io.github.fablabsmc.fablabs.mixin.gamerule.GameRulesAccessor;
 
 import net.minecraft.util.Identifier;
 import net.minecraft.world.GameRules;
 
 public final class GameRuleRegistry {
-	public static final HashMap<GameRules.RuleKey<?>, FabricGameRuleCategory> MAP = new HashMap<>();
-
 	private GameRuleRegistry() {
 	}
 
@@ -39,7 +36,7 @@ public final class GameRuleRegistry {
 	 */
 	public static <T extends GameRules.Rule<T>> GameRules.RuleKey<T> register(Identifier id, FabricGameRuleCategory category, GameRules.RuleType<T> type) {
 		GameRules.RuleKey<T> key = GameRulesAccessor.invokeRegister(id.toString(), GameRules.RuleCategory.MISC, type);
-		MAP.putIfAbsent(key, category);
+		RuleCategories.putIfAbsent(key, category);
 		return key;
 	}
 }
