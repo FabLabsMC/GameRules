@@ -11,6 +11,7 @@
   ],
   "client": [
     "client.EditGameRulesScreen$RuleListWidget$RuleTypeConsumerMixin",
+    "client.EditGameRulesScreen$RuleListWidgetMixin",
     "client.EditGameRulesScreenAccessor",
     "client.ScreenAccessor"
   ],
