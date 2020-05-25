@@ -61,7 +61,7 @@ dependencies {
 	afterEvaluate {
 		testmodImplementation sourceSets.main.output
 	}
-	//modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 	//TODO: what are we really going to do for annotations?
 	compileOnly "com.google.code.findbugs:jsr305:3.0.2" // FORCED, WILL NOT COMPILE OTHERWISE
 }

@@ -34,12 +34,12 @@ public class TestRulesMod implements ModInitializer {
 	public static final GameRules.RuleKey<GameRules.BooleanRule> TEST_BOOL_RED = register("red_boolean_rule", RED_CATEGORY, RuleFactory.createBooleanRule(false));
 	public static final GameRules.RuleKey<EnumRule<PlayerEntity.SleepFailureReason>> TEST_ENUM_RED = register("red_sleep_failure_reason_enum_rule", RED_CATEGORY, RuleFactory.createEnumRule(PlayerEntity.SleepFailureReason.NOT_POSSIBLE_HERE));
 
-	private static <T extends GameRules.Rule<T>> GameRules.RuleKey<T> register(String path, GameRules.RuleCategory category, GameRules.RuleType<T> type) {
-		return GameRuleRegistry.register(new Identifier("test", path), category, type);
+	private static <T extends GameRules.Rule<T>> GameRules.RuleKey<T> register(String name, GameRules.RuleCategory category, GameRules.RuleType<T> type) {
+		return GameRuleRegistry.register(name, category, type);
 	}
 
-	private static <T extends GameRules.Rule<T>> GameRules.RuleKey<T> register(String path, CustomGameRuleCategory category, GameRules.RuleType<T> type) {
-		return GameRuleRegistry.register(new Identifier("test", path), category, type);
+	private static <T extends GameRules.Rule<T>> GameRules.RuleKey<T> register(String name, CustomGameRuleCategory category, GameRules.RuleType<T> type) {
+		return GameRuleRegistry.register(name, category, type);
 	}
 
 	@Override

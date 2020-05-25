@@ -1,0 +1,17 @@
+{
+  "gamerule.test_cardinal_direction_rule": "Random Cardinal Direction",
+  "gamerule.test_cardinal_direction_rule.description": "A cardinal direction. Should never be up or down",
+  "gamerule.test_cardinal_direction_rule.north": "Northbound",
+  "gamerule.test_cardinal_direction_rule.south": "Southbound",
+  "gamerule.test_cardinal_direction_rule.east": "Eastbound",
+  "gamerule.test_cardinal_direction_rule.west": "Westbound",
+
+  "gamerule.red_sleep_failure_reason_enum_rule": "Why I didn't go to bed last night",
+  "gamerule.red_sleep_failure_reason_enum_rule.description": "Bed bugs are nasty man.",
+  "gamerule.red_sleep_failure_reason_enum_rule.not_possible_here": "Not possible here",
+  "gamerule.red_sleep_failure_reason_enum_rule.not_possible_now": "Not possible now",
+  "gamerule.red_sleep_failure_reason_enum_rule.too_far_away": "Too far away",
+  "gamerule.red_sleep_failure_reason_enum_rule.obstructed": "Obstructed",
+  "gamerule.red_sleep_failure_reason_enum_rule.other_problem": "Other problem",
+  "gamerule.red_sleep_failure_reason_enum_rule.not_safe": "Not safe"
+}
