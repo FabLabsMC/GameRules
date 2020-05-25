@@ -36,24 +36,18 @@ public class EnumRule<E extends Enum<E>> extends LiteralRule<EnumRule<E>> {
 
 	@Override
 	protected void deserialize(String value) {
-		/* @Nullable */ E deserialized = null;
+		try {
+			/* @Nullable */
+			E deserialized = Enum.valueOf(this.classType, value);
 
-		for (E enumConstant : this.classType.getEnumConstants()) {
-			if (value.equals(enumConstant.name())) {
-				deserialized = enumConstant;
-				break;
+			if (!this.supports(deserialized)) {
+				LOGGER.warn("Failed to parse rule of value {} for rule of type {}. Since the value {}, is unsupported.", value, this.classType, value);
 			}
-		}
 
-		if (deserialized == null) {
+			this.set(deserialized, null);
+		} catch (Throwable t) {
 			LOGGER.warn("Failed to parse rule of value {} for rule of type {}", value, this.classType);
 		}
-
-		if (!this.supports(deserialized)) {
-			LOGGER.warn("Failed to parse rule of value {} for rule of type {}. Since the value {}, is unsupported.", value, this.classType, value);
-		}
-
-		this.set(deserialized, null);
 	}
 
 	private int parseInt(String string) {
