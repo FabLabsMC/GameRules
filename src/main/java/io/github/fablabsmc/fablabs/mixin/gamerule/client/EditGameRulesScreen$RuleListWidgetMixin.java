@@ -7,6 +7,7 @@ import java.util.TreeMap;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.CustomGameRuleCategory;
 import io.github.fablabsmc.fablabs.impl.gamerule.RuleCategories;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -15,8 +16,9 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.world.EditGameRulesScreen;
 import net.minecraft.world.GameRules;
 
-@Mixin(targets = "net/minecraft/client/gui/screen/world/EditGameRulesScreen$RuleListWidget")
+@Mixin(EditGameRulesScreen.RuleListWidget.class)
 public abstract class EditGameRulesScreen$RuleListWidgetMixin extends net.minecraft.client.gui.widget.EntryListWidget<EditGameRulesScreen.AbstractRuleWidget> {
+	@Unique
 	private final Map<CustomGameRuleCategory, ArrayList<EditGameRulesScreen.AbstractRuleWidget>> fabricCategories = new TreeMap<>();
 
 	public EditGameRulesScreen$RuleListWidgetMixin(MinecraftClient client, int width, int height, int top, int bottom, int itemHeight) {
