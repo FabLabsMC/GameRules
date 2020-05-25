@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import io.github.fablabsmc.fablabs.api.gamerule.v1.CustomGameRuleCategory;
-import io.github.fablabsmc.fablabs.impl.gamerule.RuleCategories;
+import io.github.fablabsmc.fablabs.impl.gamerule.RuleKeyInternals;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -38,9 +38,11 @@ public abstract class RuleListWidgetMixin extends net.minecraft.client.gui.widge
 
 	@Inject(method = "method_27638(Ljava/util/Map$Entry;)V", at = @At("HEAD"), cancellable = true)
 	private void dontShowFabric(Map.Entry<GameRules.RuleKey<?>, EditGameRulesScreen.AbstractRuleWidget> entry, CallbackInfo ci) {
-		if (RuleCategories.containsKey(entry.getKey())) {
-			CustomGameRuleCategory category = RuleCategories.get(entry.getKey());
-			fabricCategories.computeIfAbsent(category, c -> new ArrayList<>()).add(entry.getValue());
+		final GameRules.RuleKey<?> ruleKey = entry.getKey();
+		final CustomGameRuleCategory customRuleCategory = ((RuleKeyInternals) (Object) ruleKey).fabric_getCustomCategory();
+
+		if (customRuleCategory != null) {
+			fabricCategories.computeIfAbsent(customRuleCategory, c -> new ArrayList<>()).add(entry.getValue());
 			ci.cancel();
 		}
 	}

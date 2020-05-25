@@ -1,6 +1,6 @@
 package io.github.fablabsmc.fablabs.api.gamerule.v1;
 
-import io.github.fablabsmc.fablabs.impl.gamerule.RuleCategories;
+import io.github.fablabsmc.fablabs.impl.gamerule.RuleKeyInternals;
 import io.github.fablabsmc.fablabs.mixin.gamerule.GameRulesAccessor;
 
 import net.minecraft.util.Identifier;
@@ -35,8 +35,8 @@ public final class GameRuleRegistry {
 	 * @throws IllegalStateException if a rule of the same name already exists
 	 */
 	public static <T extends GameRules.Rule<T>> GameRules.RuleKey<T> register(Identifier id, CustomGameRuleCategory category, GameRules.RuleType<T> type) {
-		GameRules.RuleKey<T> key = GameRulesAccessor.invokeRegister(id.toString(), GameRules.RuleCategory.MISC, type);
-		RuleCategories.putIfAbsent(key, category);
+		final GameRules.RuleKey<T> key = GameRulesAccessor.invokeRegister(id.toString(), GameRules.RuleCategory.MISC, type);
+		((RuleKeyInternals) (Object) key).fabric_setCustomCategory(category);
 		return key;
 	}
 }
