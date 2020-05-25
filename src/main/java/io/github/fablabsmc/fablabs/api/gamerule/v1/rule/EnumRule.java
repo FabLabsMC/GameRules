@@ -36,19 +36,24 @@ public class EnumRule<E extends Enum<E>> extends LiteralRule<EnumRule<E>> {
 
 	@Override
 	protected void deserialize(String value) {
-		int ordinal = parseInt(value);
-		E[] possibleValues = this.classType.getEnumConstants();
+		/* @Nullable */ E deserialized = null;
 
-		if (possibleValues.length <= ordinal + 1) { // Our ordinal doesn't exist, log the issue
-			LOGGER.warn("Failed to parse int {} for rule of type {}. Since it's ordinal is not present", ordinal, this.classType);
-			return;
+		for (E enumConstant : this.classType.getEnumConstants()) {
+			if (value.equals(enumConstant.name())) {
+				deserialized = enumConstant;
+				break;
+			}
 		}
 
-		if (!this.supports(possibleValues[ordinal])) {
-			LOGGER.warn("Failed to parse int {} for rule of type {}.", ordinal, this.classType);
+		if (deserialized == null) {
+			LOGGER.warn("Failed to parse rule of value {} for rule of type {}", value, this.classType);
 		}
 
-		this.set(possibleValues[ordinal], null);
+		if (!this.supports(deserialized)) {
+			LOGGER.warn("Failed to parse rule of value {} for rule of type {}. Since the value {}, is unsupported.", value, this.classType, value);
+		}
+
+		this.set(deserialized, null);
 	}
 
 	private int parseInt(String string) {
@@ -65,7 +70,7 @@ public class EnumRule<E extends Enum<E>> extends LiteralRule<EnumRule<E>> {
 
 	@Override
 	public String serialize() {
-		return Integer.toString(this.value.ordinal());
+		return this.value.name();
 	}
 
 	@Override
@@ -107,9 +112,6 @@ public class EnumRule<E extends Enum<E>> extends LiteralRule<EnumRule<E>> {
 			E value = getNext(this.supportedValues, start);
 
 			return value;
-			//if (!supportedValues.contains(value)) {
-			//		return this.cycle(value);
-			//}
 		}
 
 		return start;

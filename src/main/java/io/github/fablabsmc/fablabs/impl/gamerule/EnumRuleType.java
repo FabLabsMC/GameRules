@@ -26,7 +26,7 @@ public class EnumRuleType<E extends Enum<E>> extends LiteralRuleType<EnumRule<E>
 		LiteralCommandNode<ServerCommandSource> ruleNode = literal(key.getName()).build();
 
 		for (E supportedValue : this.supportedValues) {
-			ruleNode.addChild(literal(supportedValue.toString()).executes(context -> EnumRuleCommand.executeEnumSet(context, supportedValue.ordinal(), key)).build());
+			ruleNode.addChild(literal(supportedValue.toString()).executes(context -> EnumRuleCommand.executeEnumSet(context, supportedValue, key)).build());
 		}
 
 		literalArgumentBuilder.then(ruleNode);

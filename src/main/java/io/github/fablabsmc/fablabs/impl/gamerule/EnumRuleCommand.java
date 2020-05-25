@@ -11,13 +11,13 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.world.GameRules;
 
 final class EnumRuleCommand {
-	public static <E extends Enum<E>> int executeEnumSet(CommandContext<ServerCommandSource> context, int ordinal, GameRules.RuleKey<EnumRule<E>> key) throws CommandSyntaxException {
+	public static <E extends Enum<E>> int executeEnumSet(CommandContext<ServerCommandSource> context, E value, GameRules.RuleKey<EnumRule<E>> key) throws CommandSyntaxException {
 		// Mostly copied from vanilla, but tweaked so we can use literals
 		ServerCommandSource serverCommandSource = context.getSource();
 		EnumRule<E> rule = serverCommandSource.getMinecraftServer().getGameRules().get(key);
 
 		try {
-			rule.set(rule.getEnumClass().getEnumConstants()[ordinal], serverCommandSource.getMinecraftServer());
+			rule.set(value, serverCommandSource.getMinecraftServer());
 		} catch (IllegalArgumentException e) {
 			throw new SimpleCommandExceptionType(new LiteralText(e.getMessage())).create();
 		}
