@@ -6,7 +6,7 @@ import net.minecraft.util.Identifier;
 /**
  * Utility class for registering GameRule objects with custom categories outside of the categories Minecraft provides.
  */
-public class CustomGameRuleCategory implements Comparable<CustomGameRuleCategory> {
+public final class CustomGameRuleCategory implements Comparable<CustomGameRuleCategory> {
 	private final Identifier id;
 	private final Text name;
 

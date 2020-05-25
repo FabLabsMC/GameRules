@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 import net.minecraft.world.GameRules;
 
 @Mixin(GameRules.IntRule.class)
-public interface GameRules$IntRuleAccessor {
+public interface IntRuleAccessor {
 	@Accessor
 	int getValue();
 

@@ -13,7 +13,7 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.world.GameRules;
 
 @Mixin(targets = "net/minecraft/server/command/GameRuleCommand$1")
-public abstract class GameRuleCommandMixin$RuleConsumer {
+public abstract class GameRuleCommandRuleConsumerMixin {
 	@Shadow
 	private LiteralArgumentBuilder<ServerCommandSource> field_19419;
 

@@ -3,16 +3,16 @@
   "package": "io.github.fablabsmc.fablabs.mixin.gamerule",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "BooleanRuleAccessor",
     "GameRuleCommandAccessor",
-    "GameRuleCommandMixin$RuleConsumer",
-    "GameRules$IntRuleAccessor",
-    "GameRules$BooleanRuleAccessor",
-    "GameRulesAccessor"
+    "GameRuleCommandRuleConsumerMixin",
+    "GameRulesAccessor",
+    "IntRuleAccessor"
   ],
   "client": [
-    "client.EditGameRulesScreen$RuleListWidget$RuleTypeConsumerMixin",
-    "client.EditGameRulesScreen$RuleListWidgetMixin",
     "client.EditGameRulesScreenAccessor",
+    "client.RuleListWidgetMixin",
+    "client.RuleListWidgetRuleTypeConsumerMixin",
     "client.ScreenAccessor"
   ],
   "injectors": {

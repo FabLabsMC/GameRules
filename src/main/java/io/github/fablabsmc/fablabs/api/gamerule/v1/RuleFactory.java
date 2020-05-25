@@ -10,7 +10,7 @@ import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.EnumRule;
 import io.github.fablabsmc.fablabs.api.gamerule.v1.rule.FloatRule;
 import io.github.fablabsmc.fablabs.impl.gamerule.EnumRuleType;
 import io.github.fablabsmc.fablabs.impl.gamerule.rule.BoundedIntRule;
-import io.github.fablabsmc.fablabs.mixin.gamerule.GameRules$BooleanRuleAccessor;
+import io.github.fablabsmc.fablabs.mixin.gamerule.BooleanRuleAccessor;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.GameRules;
@@ -25,7 +25,7 @@ public final class RuleFactory {
 	}
 
 	public static GameRules.RuleType<GameRules.BooleanRule> createBooleanRule(boolean defaultValue, BiConsumer<MinecraftServer, GameRules.BooleanRule> changedCallback) {
-		return GameRules$BooleanRuleAccessor.invokeCreate(defaultValue, changedCallback);
+		return BooleanRuleAccessor.invokeCreate(defaultValue, changedCallback);
 	}
 
 	public static GameRules.RuleType<GameRules.IntRule> createIntRule(int defaultValue) {

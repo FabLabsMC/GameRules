@@ -17,11 +17,11 @@ import net.minecraft.client.gui.screen.world.EditGameRulesScreen;
 import net.minecraft.world.GameRules;
 
 @Mixin(EditGameRulesScreen.RuleListWidget.class)
-public abstract class EditGameRulesScreen$RuleListWidgetMixin extends net.minecraft.client.gui.widget.EntryListWidget<EditGameRulesScreen.AbstractRuleWidget> {
+public abstract class RuleListWidgetMixin extends net.minecraft.client.gui.widget.EntryListWidget<EditGameRulesScreen.AbstractRuleWidget> {
 	@Unique
 	private final Map<CustomGameRuleCategory, ArrayList<EditGameRulesScreen.AbstractRuleWidget>> fabricCategories = new TreeMap<>();
 
-	public EditGameRulesScreen$RuleListWidgetMixin(MinecraftClient client, int width, int height, int top, int bottom, int itemHeight) {
+	public RuleListWidgetMixin(MinecraftClient client, int width, int height, int top, int bottom, int itemHeight) {
 		super(client, width, height, top, bottom, itemHeight);
 	}
 

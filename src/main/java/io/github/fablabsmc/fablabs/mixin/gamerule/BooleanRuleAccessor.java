@@ -9,7 +9,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.GameRules;
 
 @Mixin(GameRules.BooleanRule.class)
-public interface GameRules$BooleanRuleAccessor {
+public interface BooleanRuleAccessor {
 	@Invoker
 	static GameRules.RuleType<GameRules.BooleanRule> invokeCreate(boolean initialValue, BiConsumer<MinecraftServer, GameRules.BooleanRule> changeCallback) {
 		throw new AssertionError("Untransformed accessor");

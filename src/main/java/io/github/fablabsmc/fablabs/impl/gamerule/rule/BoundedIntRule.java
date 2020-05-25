@@ -1,7 +1,7 @@
 package io.github.fablabsmc.fablabs.impl.gamerule.rule;
 
 import io.github.fablabsmc.fablabs.api.gamerule.v1.GameRuleRegistry;
-import io.github.fablabsmc.fablabs.mixin.gamerule.GameRules$IntRuleAccessor;
+import io.github.fablabsmc.fablabs.mixin.gamerule.IntRuleAccessor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,7 +31,7 @@ public class BoundedIntRule extends GameRules.IntRule {
 			return;
 		}
 
-		((GameRules$IntRuleAccessor) this).setValue(i);
+		((IntRuleAccessor) this).setValue(i);
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class BoundedIntRule extends GameRules.IntRule {
 				return false;
 			}
 
-			((GameRules$IntRuleAccessor) this).setValue(value);
+			((IntRuleAccessor) this).setValue(value);
 			return true;
 		} catch (NumberFormatException var3) {
 			return false;
@@ -53,7 +53,7 @@ public class BoundedIntRule extends GameRules.IntRule {
 
 	@Override
 	protected GameRules.IntRule copy() {
-		return new BoundedIntRule(this.type, ((GameRules$IntRuleAccessor) this).getValue(), this.lowerBound, this.upperBound);
+		return new BoundedIntRule(this.type, ((IntRuleAccessor) this).getValue(), this.lowerBound, this.upperBound);
 	}
 
 	private static int parseInt(String input) {

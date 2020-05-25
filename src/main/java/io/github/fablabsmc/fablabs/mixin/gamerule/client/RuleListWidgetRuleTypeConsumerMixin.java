@@ -21,7 +21,7 @@ import net.fabricmc.api.Environment;
 
 @Environment(EnvType.CLIENT)
 @Mixin(targets = "net/minecraft/client/gui/screen/world/EditGameRulesScreen$RuleListWidget$1")
-public abstract class EditGameRulesScreen$RuleListWidget$RuleTypeConsumerMixin implements GameRules.RuleTypeConsumer, FabricRuleTypeConsumer {
+public abstract class RuleListWidgetRuleTypeConsumerMixin implements GameRules.RuleTypeConsumer, FabricRuleTypeConsumer {
 	@Final
 	@Shadow
 	private EditGameRulesScreen field_24314;
