@@ -1,8 +1,8 @@
 package io.github.fablabsmc.fablabs.mixin.gamerule.client;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 import io.github.fablabsmc.fablabs.api.gamerule.v1.CustomGameRuleCategory;
 import io.github.fablabsmc.fablabs.impl.gamerule.RuleKeyInternals;
@@ -19,7 +19,7 @@ import net.minecraft.world.GameRules;
 @Mixin(EditGameRulesScreen.RuleListWidget.class)
 public abstract class RuleListWidgetMixin extends net.minecraft.client.gui.widget.EntryListWidget<EditGameRulesScreen.AbstractRuleWidget> {
 	@Unique
-	private final Map<CustomGameRuleCategory, ArrayList<EditGameRulesScreen.AbstractRuleWidget>> fabricCategories = new TreeMap<>();
+	private final Map<CustomGameRuleCategory, ArrayList<EditGameRulesScreen.AbstractRuleWidget>> fabricCategories = new HashMap<>();
 
 	public RuleListWidgetMixin(MinecraftClient client, int width, int height, int top, int bottom, int itemHeight) {
 		super(client, width, height, top, bottom, itemHeight);
@@ -37,7 +37,7 @@ public abstract class RuleListWidgetMixin extends net.minecraft.client.gui.widge
 	}
 
 	@Inject(method = "method_27638(Ljava/util/Map$Entry;)V", at = @At("HEAD"), cancellable = true)
-	private void dontShowFabric(Map.Entry<GameRules.RuleKey<?>, EditGameRulesScreen.AbstractRuleWidget> entry, CallbackInfo ci) {
+	private void ignoreKeysWithCustomCategories(Map.Entry<GameRules.RuleKey<?>, EditGameRulesScreen.AbstractRuleWidget> entry, CallbackInfo ci) {
 		final GameRules.RuleKey<?> ruleKey = entry.getKey();
 		final CustomGameRuleCategory customRuleCategory = ((RuleKeyInternals) (Object) ruleKey).fabric_getCustomCategory();
 
