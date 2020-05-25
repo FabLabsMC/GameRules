@@ -37,8 +37,7 @@ public class EnumRule<E extends Enum<E>> extends LiteralRule<EnumRule<E>> {
 	@Override
 	protected void deserialize(String value) {
 		try {
-			/* @Nullable */
-			E deserialized = Enum.valueOf(this.classType, value);
+			final E deserialized = Enum.valueOf(this.classType, value);
 
 			if (!this.supports(deserialized)) {
 				LOGGER.warn("Failed to parse rule of value {} for rule of type {}. Since the value {}, is unsupported.", value, this.classType, value);
