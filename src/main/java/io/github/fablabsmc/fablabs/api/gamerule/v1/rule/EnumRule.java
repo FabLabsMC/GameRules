@@ -44,7 +44,7 @@ public class EnumRule<E extends Enum<E>> extends LiteralRule<EnumRule<E>> {
 			}
 
 			this.set(deserialized, null);
-		} catch (Throwable t) {
+		} catch (IllegalArgumentException e) {
 			LOGGER.warn("Failed to parse rule of value {} for rule of type {}", value, this.classType);
 		}
 	}
